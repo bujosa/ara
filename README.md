@@ -35,6 +35,7 @@ query {
     }
     nodes {
       name
+      elements
       friends {
         name
       }
@@ -45,7 +46,7 @@ query {
 
 ### Result
 
-![Alt text](example.png)
+![Alt text](image.png)
 
 ## Documentation
 

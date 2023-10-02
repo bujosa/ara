@@ -1,19 +1,22 @@
-mod starwars;
+mod naruto;
 
 use async_graphql::{
     http::{playground_source, GraphQLPlaygroundConfig},
     EmptyMutation, EmptySubscription, Request, Response, Schema,
 };
+use naruto::{NarutoShippuden, NarutoShippudenSchema, QueryRoot};
 use poem::{
     get, handler,
     listener::TcpListener,
     web::{Data, Html, Json},
     EndpointExt, IntoResponse, Route, Server,
 };
-use starwars::{QueryRoot, StarWars, StarWarsSchema};
 
 #[handler]
-async fn graphql_handler(schema: Data<&StarWarsSchema>, req: Json<Request>) -> Json<Response> {
+async fn graphql_handler(
+    schema: Data<&NarutoShippudenSchema>,
+    req: Json<Request>,
+) -> Json<Response> {
     Json(schema.execute(req.0).await)
 }
 
@@ -30,7 +33,7 @@ async fn main() -> Result<(), std::io::Error> {
     tracing_subscriber::fmt::init();
 
     let schema = Schema::build(QueryRoot, EmptyMutation, EmptySubscription)
-        .data(StarWars::new())
+        .data(NarutoShippuden::new())
         .finish();
 
     let app = Route::new()
